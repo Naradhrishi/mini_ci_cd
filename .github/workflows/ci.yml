@@ -1,0 +1,33 @@
+name: Python Testing CI
+
+# Trigger this workflow every time someone pushes code to the 'main' branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-tests:
+    # Tell GitHub to spin up a fresh, virtual Ubuntu Linux computer
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Download the code from your repository onto the virtual machine
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Install Python on that virtual machine
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-node: '3.10'
+
+    # 3. Install your testing tool (pytest)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # 4. Run the automated tests!
+    - name: Run Pytest
+      run: |
+        pytest
